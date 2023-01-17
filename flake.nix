@@ -23,7 +23,7 @@
           luasnip
           cmp_luasnip
 
-          nvim-treesitter
+          (nvim-treesitter.withPlugins (_: pkgs.tree-sitter.allGrammars))
 
           nvim-treesitter-textobjects
 
