@@ -40,12 +40,14 @@
           telescope-nvim
           plenary-nvim
 
+
         ];
         customRC = ''
         luafile ${./init.lua}
-        luafile ${./remaps.lua}
         '';
       };
+    vimAlias = true;
+    viAlias = true;
     };
 
     packages.x86_64-linux.default = self.packages.x86_64-linux.neovim;

@@ -10,6 +10,26 @@ vim.wo.signcolumn = 'yes'
 vim.o.termguicolors = true
 vim.cmd[[colorscheme tokyonight]]
 vim.o.completeopt = 'menuone,noselect'
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
+-- Keymaps for better default experience
+-- See `:help vim.keymap.set()`
+vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
+
+-- Remap for dealing with word wrap
+vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+
+-- [[ Highlight on yank ]]
+-- See `:help vim.highlight.on_yank()`
+local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
+vim.api.nvim_create_autocmd('TextYankPost', {
+  callback = function()
+    vim.highlight.on_yank()
+  end,
+  group = highlight_group,
+  pattern = '*',
+})
 
 -- Set lualine as statusline
 -- See `:help lualine.txt`
@@ -196,16 +216,18 @@ end
 --  Add any additional override configuration in the following tables. They will be passed to
 --  the `settings` field of the server config. You must look up that documentation yourself.
 local servers = {
-  -- clangd = {},
+  clangd = {},
   -- gopls = {},
-  -- pyright = {},
-  -- rust_analyzer = {},
+  pyright = {},
+  rust_analyzer = {},
   -- tsserver = {},
+  rnix = {},
 
   sumneko_lua = {
     Lua = {
       workspace = { checkThirdParty = false },
       telemetry = { enable = false },
+      diagnostics = { globals = { 'vim' } },
     },
   },
 }
@@ -216,6 +238,17 @@ require('neodev').setup()
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+
+-- setup LSP
+names = vim.tbl_keys(servers)
+
+for i,server_name in ipairs(names) do
+  require('lspconfig')[server_name].setup {
+      capabilities = capabilities,
+      on_attach = on_attach,
+      settings = servers[server_name],
+    }
+end
 
 -- Turn on lsp status information
 require('fidget').setup()
