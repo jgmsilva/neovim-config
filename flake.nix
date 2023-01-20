@@ -36,6 +36,7 @@
           indent-blankline-nvim
           comment-nvim
           vim-sleuth
+          nvim-surround
 
           telescope-nvim
           plenary-nvim
