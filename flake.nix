@@ -24,6 +24,7 @@
           cmp_luasnip
 
           (nvim-treesitter.withPlugins (_: pkgs.tree-sitter.allGrammars))
+          
 
           nvim-treesitter-textobjects
 
@@ -33,10 +34,12 @@
 
           lualine-nvim
           tokyonight-nvim
+          onedark-nvim
           indent-blankline-nvim
           comment-nvim
           vim-sleuth
           nvim-surround
+          nvim-autopairs
 
           telescope-nvim
           plenary-nvim
@@ -52,6 +55,10 @@
     };
 
     packages.x86_64-linux.default = self.packages.x86_64-linux.neovim;
+
+    devShells.${system}.default = pkgs.mkShell {
+      buildInputs = with pkgs;[ sumneko-lua-language-server ];
+    };
 
   };
 }

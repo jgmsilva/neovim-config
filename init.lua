@@ -8,7 +8,10 @@ vim.o.smartcase = true
 vim.o.updatetime = 250
 vim.wo.signcolumn = 'yes'
 vim.o.termguicolors = true
+vim.opt.guifont = { "Fira Code", "h14"}
+vim.g.neovide_scale_factor = 0.6
 vim.cmd[[colorscheme tokyonight]]
+vim.cmd [[autocmd BufWritePre * lua vim.lsp.buf.formatting_sync()]]
 vim.o.completeopt = 'menuone,noselect'
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
@@ -47,6 +50,9 @@ require('Comment').setup()
 
 -- enable nvim-surround
 require('nvim-surround').setup()
+
+-- enable nvim-autopairs
+require('nvim-autopairs').setup()
 
 -- Enable `lukas-reineke/indent-blankline.nvim`
 -- See `:help indent_blankline.txt`
