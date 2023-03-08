@@ -232,11 +232,10 @@ local servers = {
   -- tsserver = {},
   rnix = {},
 
-  sumneko_lua = {
+  lua_ls = {
     Lua = {
       workspace = { checkThirdParty = false },
       telemetry = { enable = false },
-      diagnostics = { globals = { 'vim' } },
     },
   },
 }
